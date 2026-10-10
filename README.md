@@ -2,7 +2,7 @@
 
 CiviSort helps answer three questions: which road hazards matter most, which repairs fit within our budget, and whether those repairs were actually completed. Residents report hazards; reviewers verify them; the app explains priorities, selects a repair bundle, and records the repair history.
 
-This hackathon submission is a **local Flask/SQLite prototype**, using synthetic reports for a fictional **Ashoka Ward**. Scores are planning assumptions, not measured accident risk or accident predictions.
+This product is a **local Flask/SQLite prototype**, using synthetic reports. Scores are planning assumptions, not measured accident risk or accident predictions.
 
 ## Main features
 
