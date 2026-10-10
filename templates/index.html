@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CiviSort — road repair, with reasons</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/leaflet/leaflet.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to workspace</a>
+  <header class="top">
+    <div class="brand">
+      <p class="eyebrow">CiviSort</p>
+      <h1>Road repair, with reasons.</h1>
+      <p class="tag">See the need. Choose the repair. Show the result.</p>
+    </div>
+    <div class="top-actions">
+      <fieldset class="role-switch" aria-label="Demo role">
+        <legend>Demo role</legend>
+        <label><input type="radio" name="role" value="resident" checked> Resident</label>
+        <label><input type="radio" name="role" value="reviewer"> Reviewer</label>
+        <p class="hint">Local demonstration only — not production authentication.</p>
+      </fieldset>
+      <button type="button" class="btn primary" id="open-report">Report a hazard</button>
+    </div>
+  </header>
+
+  <p class="banner" role="status">All seeded records are synthetic demonstration data for Ashoka Ward. Priority weights are prototype planning assumptions, not measured accident risk.</p>
+
+  <section class="controls" aria-label="Scenarios and budget">
+    <div class="switches">
+      <span class="controls-label">ContextShift</span>
+      <label class="switch"><input type="checkbox" id="rain"> Rain</label>
+      <label class="switch"><input type="checkbox" id="night"> Night</label>
+      <label class="switch"><input type="checkbox" id="school"> School Hours</label>
+      <p class="hint">Simulations only. Rain affects potholes and drainage; night affects streetlights; school hours affect tagged school-access hazards. Matching scenarios do not stack.</p>
+    </div>
+    <div class="budget-box">
+      <label for="budget">Repair budget (INR)</label>
+      <div class="budget-row">
+        <input type="number" id="budget" min="0" step="1000" value="70000">
+        <input type="range" id="budget-range" min="0" max="150000" step="1000" value="70000">
+      </div>
+    </div>
+  </section>
+
+  <div class="filters" aria-label="Report filters">
+    <label>Category
+      <select id="filter-category">
+        <option value="">All</option>
+        <option value="pothole">Pothole</option>
+        <option value="drainage">Drainage</option>
+        <option value="streetlight">Broken streetlight</option>
+        <option value="crossing">Crossing / access</option>
+      </select>
+    </label>
+    <label>Evidence
+      <select id="filter-evidence">
+        <option value="">All</option>
+        <option value="unverified">Unverified</option>
+        <option value="verified">Verified</option>
+        <option value="disputed">Disputed</option>
+      </select>
+    </label>
+    <label>Repair
+      <select id="filter-repair">
+        <option value="active">Active (hide closed)</option>
+        <option value="all">All, including closed</option>
+        <option value="reported">Reported</option>
+        <option value="verified">Verified</option>
+        <option value="planned">Planned</option>
+        <option value="repair_claimed">Repair claimed</option>
+        <option value="closed">Closed</option>
+      </select>
+    </label>
+  </div>
+
+  <main id="main" class="workspace">
+    <section class="panel list-panel" aria-labelledby="list-heading">
+      <div class="panel-head">
+        <h2 id="list-heading">Ranked reports</h2>
+        <p id="list-status" aria-live="polite" class="muted"></p>
+      </div>
+      <div id="list" class="list"></div>
+    </section>
+
+    <section class="panel map-panel" aria-labelledby="map-heading">
+      <div class="panel-head">
+        <h2 id="map-heading">Neighbourhood map</h2>
+        <p id="map-status" aria-live="polite" class="muted">OpenStreetMap tiles when online.</p>
+      </div>
+      <div id="map" role="application" aria-label="Hazard map"></div>
+      <div id="schematic" class="schematic hidden" hidden>
+        <p class="schematic-label">Local schematic neighbourhood view — OpenStreetMap tiles were unavailable. Select a labelled pin. Map data would otherwise be © OpenStreetMap contributors.</p>
+        <div class="schematic-stage">
+          <img src="{{ url_for('static', filename='img/schematic.svg') }}" alt="Schematic streets of Ashoka Ward">
+          <div id="schematic-pins"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="panel" aria-labelledby="detail-heading">
+        <div class="panel-head">
+          <h2 id="detail-heading">Report detail</h2>
+        </div>
+        <div id="detail" class="detail empty-state">Select a map pin or list entry to inspect the same report.</div>
+      </section>
+      <section class="panel" aria-labelledby="plan-heading">
+        <div class="panel-head">
+          <h2 id="plan-heading">BudgetMix</h2>
+        </div>
+        <div id="plan" class="plan"></div>
+      </section>
+    </aside>
+  </main>
+
+  <dialog id="report-dialog" class="dialog">
+    <form id="report-form" method="dialog">
+      <h2>Report a hazard</h2>
+      <p class="hint">Place a pin on the map first, or enter coordinates inside Ashoka Ward.</p>
+      <label>Latitude <input name="lat" id="form-lat" required></label>
+      <label>Longitude <input name="lng" id="form-lng" required></label>
+      <label>Category
+        <select name="category" required>
+          <option value="pothole">Pothole</option>
+          <option value="drainage">Drainage problem</option>
+          <option value="streetlight">Broken streetlight</option>
+          <option value="crossing">Crossing / access hazard</option>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" name="school_access"> This is a school-access hazard</label>
+      <label>Description
+        <textarea name="description" minlength="8" maxlength="2000" required placeholder="What is unsafe, and who is affected?"></textarea>
+      </label>
+      <label>Photo (optional, JPEG/PNG/WebP/GIF, 5 MB max)
+        <input type="file" name="photo" accept="image/jpeg,image/png,image/webp,image/gif">
+      </label>
+      <p id="form-error" class="error" hidden></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn" id="cancel-report">Cancel</button>
+        <button type="submit" class="btn primary">Submit report</button>
+      </div>
+    </form>
+  </dialog>
+
+  <p id="toast" class="toast" hidden role="status"></p>
+
+  <footer class="foot">
+    <p>Leaflet 1.9.4 · Map tiles © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Planning scores are not predicted accidents.</p>
+  </footer>
+
+  <script>
+    window.CIVISORT = {
+      bounds: {{ bounds | tojson }},
+      categories: {{ categories | tojson }}
+    };
+  </script>
+  <script src="{{ url_for('static', filename='vendor/leaflet/leaflet.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

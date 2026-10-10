@@ -1,0 +1,45 @@
+CIVISORT — JUDGE QUICK START
+Local hackathon prototype | Windows 10 / 11
+
+START THE APPLICATION
+1. Right-click the submission ZIP and choose “Extract All”.
+2. Open the extracted CiviSort folder containing app.py and run.bat.
+3. Ensure Python 3.11+ is installed (select “Add python.exe to PATH”
+   during installation). Internet is needed for first-time package setup.
+4. Double-click run.bat. Wait for installation and server startup.
+   Keep this console window open while using the application.
+5. Open http://127.0.0.1:5000/ in your browser.
+   First startup automatically creates about 20 synthetic sample reports.
+6. To stop, press Ctrl+C in the server console. Run run.bat to restart;
+   saved reports and plans are retained.
+
+QUICK DEMO — APPROXIMATELY FIVE MINUTES
+1. Explore: select a report from the list or map and view its evidence
+   status, repair status and priority breakdown.
+2. ContextShift: toggle Rain, Night or School Hours and observe relevant
+   priority changes. Multiple matching conditions do not stack.
+3. Report: as Resident, click the map, choose “Report a hazard”, enter
+   details and submit. A photo is optional; the report starts unverified.
+4. Verify: switch the top “Demo role” selector to Reviewer. Open the new
+   report, set severity, exposure, vulnerability and cost; verify evidence.
+5. BudgetMix: change the budget to inspect the suggested repair bundle.
+   As Reviewer, save a plan snapshot; selected reports become Planned.
+6. Repair Receipt: as Resident, open a Planned report and claim repair
+   with a completion note or after-photo. Switch to Reviewer to confirm
+   closure. View History; reopen with a reason if needed.
+
+IF SOMETHING DOES NOT WORK
+- Python not recognised: install Python with PATH enabled; rerun run.bat.
+- Package installation fails: check internet access and rerun run.bat.
+- Browser cannot connect: wait for startup and keep the console open.
+- Port 5000 in use: stop an earlier CiviSort server and rerun run.bat.
+- Online map unavailable: use the labelled local schematic fallback.
+- Run automated checks: double-click run_tests.bat.
+- Restore sample data: run reset_demo.bat and type RESET when prompted.
+  WARNING: resetting deletes existing demo reports, plans and photos.
+
+ABOUT THIS DEMO
+All sample reports are synthetic. Scores are planning assumptions, not
+accident predictions. Resident / Reviewer are demo roles, not secure
+production accounts. The app runs locally; online map tiles need internet.
+For more detail, see START_HERE.md, DEMO_GUIDE.md and README.md in the ZIP.

@@ -1,0 +1,61 @@
+# Local Python environments and installed packages
+.venv/
+venv/
+env/
+site-packages/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Generated database, demo photos, and user uploads (seed code is tracked)
+/data/
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+/uploads/
+
+# Credentials and personal settings
+.env
+.env.*
+*.pem
+*.key
+credentials*.json
+.aws/
+.ssh/
+
+# Archives, build output, logs, and temporary files
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+build/
+dist/
+*.egg-info/
+*.log
+*.tmp
+*.bak
+*.orig
+*~
+
+# Editor / AI tooling and operating-system metadata
+.cursor/
+.claude/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Submission presentation materials, not application assets
+/docs/
+/screenshots/
+/videos/
+/presentations/

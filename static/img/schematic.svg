@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="Schematic neighbourhood of Ashoka Ward">
+  <rect width="800" height="520" fill="#e7eee8"/>
+  <rect x="40" y="70" width="720" height="36" fill="#c5cdc4"/>
+  <rect x="120" y="70" width="36" height="390" fill="#c5cdc4"/>
+  <rect x="40" y="250" width="720" height="32" fill="#c5cdc4"/>
+  <rect x="430" y="70" width="32" height="390" fill="#c5cdc4"/>
+  <rect x="40" y="400" width="720" height="28" fill="#c5cdc4"/>
+  <rect x="200" y="120" width="90" height="70" fill="#d7c4a3"/>
+  <rect x="520" y="120" width="120" height="90" fill="#c9d6c8"/>
+  <rect x="180" y="300" width="140" height="70" fill="#d2c7b2"/>
+  <rect x="500" y="300" width="160" height="80" fill="#b9c7c4"/>
+  <circle cx="138" cy="266" r="18" fill="#9aa89a"/>
+  <text x="56" y="48" font-family="Georgia, serif" font-size="22" fill="#1c2a32">Ashoka Ward - schematic</text>
+  <text x="56" y="500" font-family="Segoe UI, sans-serif" font-size="14" fill="#5b6a72">Synthetic streets for local fallback. Not a surveyed map.</text>
+</svg>
