@@ -13,6 +13,28 @@ This product is a **local Flask/SQLite prototype**, using synthetic reports. Sco
 - **Repair Receipt:** residents claim a planned repair with a note or after-photo; reviewers confirm closure or reopen it with a reason. History records timestamps.
 - **Duplicate review:** same-category reports within 50 metres are flagged for reviewer-confirmed merging; linked duplicates remain on record.
 
+## Screenshots
+
+Captured from the running local app with fresh synthetic demo data. These views show the labelled schematic fallback with online map tiles blocked.
+
+### Dashboard and priority breakdown
+
+Ranked hazards, scenario controls, the neighbourhood schematic, and an individual report's score breakdown.
+
+![CiviSort dashboard with ranked reports, schematic map, and priority breakdown](screenshots/dashboard.png)
+
+### BudgetMix
+
+Suggested repairs within an INR 70,000 budget with Rain enabled, compared with the priority-first baseline.
+
+![BudgetMix showing selected repairs, spending, remaining budget, and baseline comparison](screenshots/budgetmix.png)
+
+### Report a hazard
+
+The Resident reporting form with a location selected on the schematic and an example description entered. This example was not submitted.
+
+![Resident hazard-report form with coordinates, category, description, and optional photo upload](screenshots/report-hazard.png)
+
 ## Technology and requirements
 
 Python **3.11+**, Flask, SQLite, Pillow, pytest, HTML/CSS/JavaScript, and bundled Leaflet 1.9.4. Exact Python dependency versions are in [requirements.txt](requirements.txt); no Node.js or JavaScript build step is required.
